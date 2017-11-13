@@ -37,10 +37,12 @@ expenses = troop_cost + building_cost + upkeep_cost
 net = income - expenses
 net_str = str(net)
 
+print(income,"\n",expenses,"\n",net,"\n")
+
 if net < 0:
-    sign = "-"
-else:
     sign = "+"
+else:
+    sign = "-"
 spacenet = " " * (8 - len(net_str))
 
 export_one = "copper"
@@ -48,7 +50,6 @@ export_two = "rum"
 export_three = ""
 export_list = export_one + ", " + export_two + ", " + export_three + "."
 spacex = " " * (24 - len(export_list))
-econ_vars = (tax_display,tax_setting,exports,taxes,net,expenses,sign,spacenet)
 
 # Military Calculations
 
@@ -60,9 +61,14 @@ econ_vars = (tax_display,tax_setting,exports,taxes,net,expenses,sign,spacenet)
 
 # City Panel
 def your_city(your_city_select,give_close):
+    if give_close == "C":
+        print("Returning to map...")
+        exit()
+
     give_next = ""
+
     while give_next == "" and give_close == "":
-        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         print("+[O]--[E]conomic--|--[M]ilitary--|--[S]ocial--[B]+")
         print("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|")
         print("|                                                |")
@@ -76,7 +82,7 @@ def your_city(your_city_select,give_close):
 
         if tab_select in "Ee":
             give_next = "N"
-            economic(econ_vars) #Add variables
+            economic() #Add variables
         elif tab_select in "Mm":
             give_next = "N"
             military() #Add variables
@@ -93,7 +99,7 @@ def your_city(your_city_select,give_close):
             give_next = "N"
             building() #Add variables
         else:
-            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
             print("+[O]--[E]conomic--|--[M]ilitary--|--[S]ocial--[B]+")
             print("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|")
             print("|                                                |")
@@ -105,13 +111,9 @@ def your_city(your_city_select,give_close):
             print("+----------------------------------------[C]lose-+")
             tab_select = input("")
 
-    if give_close == "C":
-        exit()
-
-
 # Overview
 def overview():
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     print("+--------------------OVERVIEW--------------------+")
     print("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|")
     print("|                                                |")
@@ -127,22 +129,8 @@ def overview():
         your_city(your_city_select,give_close)
 
 # Economy
-def economic(econ_vars):
-    tax_display = econ_vars[0]
-    tax_setting = econ_vars[1]
-    tax_setting = int(tax_setting)
-    exports = econ_vars[2]
-    exports = int(exports)
-    taxes = econ_vars[3]
-    taxes = int(taxes)
-    net = econ_vars[4]
-    net = int(net)
-    expenses = econ_vars[5]
-    expenses = int(expenses)
-    sign = econ_vars[6]
-    spacenet = econ_vars[7]
-
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+def economic():
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     print("+[<]--[E]conomic--|--[M]ilitary--|--[S]ocial--[>]+")
     print("|                 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|")
     print("|+[<]--[T]axes--|--[I]ncome--|--[E]xpenses--[>]+ |")
@@ -161,12 +149,12 @@ def economic(econ_vars):
 
     while econ_close == 0:
         if (econ_select in "Tt" and (next_econ == "initial")) or (prev_econ == "E" and next_econ in ">.") or (prev_econ == "I" and next_econ in "<,") or (next_econ == "initial" and (econ_select in "<," or econ_select in ">.")) or (next_econ in "Tt"):
-            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
             print("+[<]--[E]conomic--|--[M]ilitary--|--[S]ocial--[>]+")
             print("|                 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|")
             print("|+[<]--[T]axes--|--[I]ncome--|--[E]xpenses--[>]+ |")
             print("|+              +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| |")
-            print("||  {Taxes}   [ Taxes: ",taxes,"]","\t\t","      | |")
+            print("||  {Taxes}            [Taxes: ",taxes,"]           | |")
             print("||                                             | |")
             print("||   1) [-]\t",tax_display,"\t","[+]           | |")
             print("||                                             | |")
@@ -178,64 +166,27 @@ def economic(econ_vars):
             next_econ = input("")
             if next_econ == "-":
                 tax_setting -= 1
-
                 if tax_setting == 0:
                     tax_setting = 5
                 elif tax_setting == 6:
                     tax_setting = 1
-
                 if tax_setting == 1:
-                    tax_display = "Very Low "
-                    next_econ = "T"
+                    tax_display = "Very Low"
                 elif tax_setting == 2:
-                    tax_display = "Low      "
-                    next_econ = "T"
+                    tax_display = "Low"
                 elif tax_setting == 3:
-                    tax_display = "Normal   "
-                    next_econ = "T"
+                    tax_display = "Normal"
                 elif tax_setting == 4:
-                    tax_display = "High     "
-                    next_econ = "T"
+                    tax_display = "High"
                 elif tax_setting == 5:
                     tax_display = "Very High"
-                    next_econ = "T"
-
             elif next_econ == "+":
-                tax_setting += 1
-
-                if tax_setting == 0:
-                    tax_setting = 5
-                elif tax_setting == 6:
-                    tax_setting = 1
-
-                if tax_setting == 1:
-                    tax_display = "Very Low "
-                    next_econ = "T"
-                elif tax_setting == 2:
-                    tax_display = "Low      "
-                    next_econ = "T"
-                elif tax_setting == 3:
-                    tax_display = "Normal   "
-                    next_econ = "T"
-                elif tax_setting == 4:
-                    tax_display = "High     "
-                    next_econ = "T"
-                elif tax_setting == 5:
-                    tax_display = "Very High"
-                    next_econ = "T"
-
-            taxes = (tax_setting / 10) * exports
-            taxes = int(taxes)
-            income = taxes + exports
-            net = income - expenses
-            if net < 0:
-                sign = "-"
+                
             else:
-                sign = "+"
-            spacenet = " " * (8 - len(net_str))
+                next_econ = input("")
         
         elif (econ_select in "Ii" and (next_econ == "initial")) or (prev_econ == "T" and next_econ in ">.") or (prev_econ == "E" and next_econ in "<,") or (next_econ in "Ii"):
-            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
             print("+[<]--[E]conomic--|--[M]ilitary--|--[S]ocial--[>]+")
             print("|                 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|")
             print("|+[<]--[T]axes--|--[I]ncome--|--[E]xpenses--[>]+ |")
@@ -251,7 +202,7 @@ def economic(econ_vars):
             next_econ = input("")
         
         elif (econ_select in "Ee" and (next_econ == "initial")) or (prev_econ == "T" and next_econ in "<,") or (prev_econ == "I" and next_econ in ">.") or (next_econ in "Ee"):
-            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
             print("+[<]--[E]conomic--|--[M]ilitary--|--[S]ocial--[>]+")
             print("|                 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|")
             print("|+[<]--[T]axes--|--[I]ncome--|--[E]xpenses--[>]+ |")
@@ -283,7 +234,7 @@ def economic(econ_vars):
             return tax_display
 
         else:
-            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
             print("+[<]--[E]conomic--|--[M]ilitary--|--[S]ocial--[>]+")
             print("|                 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|")
             print("|+[<]--[T]axes--|--[I]ncome--|--[E]xpenses--[>]+ |")
@@ -317,7 +268,7 @@ def building():
 # Exit Function
 def exit():
     print("Returning to map...")
-#    exit = input("")
+    exit = input("")
     
 
 
