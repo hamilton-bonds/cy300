@@ -1,0 +1,25 @@
+I would like to detail exactly how we're going to populate the map.
+
+Map is going to be a dictionary.
+
+map_dict = {province1:[city_name,buildings,military,social,economic],province2:...}
+
+province1 = "province name"
+
+city_name = "city name"
+buildings = [building1,building2,...]
+
+military = [troops_in_garrison,troops_in_province,attacker]
+attacker = faction_name (get faction status (ally, enemy)) OR "nobody"
+troops_in_garrison = [inf,cav,art]
+troops_in_province = [inf,cav,art]
+
+<unit type> = [num_troops,owner_type,owner_faction,weapons,armor,general]
+*(later, we'll have to include total troops for the battle resolution)
+
+battle_constants = [inf_v_cav,cav_v_art,art_v_inf,enemy_attacks_first]
+enemy_attacks_first depends on if attacker != "nobody".  If faction_name != your_faction, then enemy_attacks_first = 1
+
+social = [royalty_in_province,rebellion]
+
+economic = [taxes,trade_goods,income,expenses]
