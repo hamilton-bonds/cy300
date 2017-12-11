@@ -1,0 +1,42 @@
+; ";" comments things out from this document. : and | are separators.  Only modify this document if you know what you're doing.
+;####################
+;EARLY PROVINCES
+;####################
+;name,owner,unit_list=[],city,x,y:name,type,number|nexttroopattributes...:gard:citytype,gar,taxlvl,resources,income,pbuilds,cbuilds,ul,x,y
+England,English,[],"",50,50:Musketeers,infantry,100:"","","",Gold,150,[],[],[],70,70
+Ile-de-France,French,[],"",100,100:Musketeers,infantry,100:"","","",Gold,150,[],[],[],120,120
+Bavaria,Germans,[],"",150,150:Musketeers,infantry,100:"","","",Gold,150,[],[],[],170,170
+Valencia,Spanish,[],"",200,200:Musketeers,infantry,100:"","","",Gold,150,[],[],[],220,220
+Italians,[],"",250,250:Musketeers,infantry,100:"","","",Gold,150,[],[],[],270,270
+Russians,[],"",300,300:Musketeers,infantry,100:"","","",Gold,150,[],[],[],320,320
+Polish,[],"",350,350:Musketeers,infantry,100:"","","",Gold,150,[],[],[],370,370
+Turkish,[],"",400,400:Musketeers,infantry,100:"","","",Gold,150,[],[],[],420,420
+
+
+;####################
+;MIDDLE PROVINCES
+;####################
+;name,owner,unit_list=[],city,x,y:[troop1,troop2,...]:gard:citytype,gar,taxlvl,resources,income,pbuilds,cbuilds,ul,x,y
+England,English,[],"",50,50:Musketeers,infantry,100|Huskarls,cavalry,50:Huskarls,cavalry,50:
+Ile-de-France,French,[],"",100,100:Musketeers,infantry,100|Huskarls,cavalry,50:Huskarls,cavalry,50
+Bavaria,Germans,[],"",150,150:Musketeers,infantry,100|Huskarls,cavalry,50:Huskarls,cavalry,50
+Valencia,Spanish,[],"",200,200:Musketeers,infantry,100|Huskarls,cavalry,50:Huskarls,cavalry,50
+Italians,[],"",250,250:Musketeers,infantry,100|Huskarls,cavalry,50:Huskarls,cavalry,50
+Russians,[],"",300,300:Musketeers,infantry,100|Huskarls,cavalry,50:Huskarls,cavalry,50
+Polish,[],"",350,350:Musketeers,infantry,100|Huskarls,cavalry,50:Huskarls,cavalry,50
+Turkish,[],"",400,400:Musketeers,infantry,100|Huskarls,cavalry,50:Huskarls,cavalry,50
+
+
+;####################
+;LATE PROVINCES
+;####################
+;name,owner,unit_list=[],city,x,y:[troop1,troop2,...]:gard:citytype,gar,taxlvl,resources,income,pbuilds,cbuilds,ul,x,y
+England,English,[],"",50,50:Musketeers,infantry,100|Huskarls,cavalry,50|Howitzers,artillery,20:Musketeers,infantry,100|Huskarls,cavalry,50
+Ile-de-France,French,[],"",100,100:Musketeers,infantry,100|Huskarls,cavalry,50|Howitzers,artillery,20:Musketeers,infantry,100|Huskarls,cavalry,50
+Bavaria,Germans,[],"",150,150:Musketeers,infantry,100|Huskarls,cavalry,50|Howitzers,artillery,20:Musketeers,infantry,100|Huskarls,cavalry,50
+Valencia,Spanish,[],"",200,200:Musketeers,infantry,100|Huskarls,cavalry,50|Howitzers,artillery,20:Musketeers,infantry,100|Huskarls,cavalry,50
+Italians,[],"",250,250:Musketeers,infantry,100|Huskarls,cavalry,50|Howitzers,artillery,20:Musketeers,infantry,100|Huskarls,cavalry,50
+Russians,[],"",300,300:Musketeers,infantry,100|Huskarls,cavalry,50|Howitzers,artillery,20:Musketeers,infantry,100|Huskarls,cavalry,50
+Polish,[],"",350,350:Musketeers,infantry,100|Huskarls,cavalry,50|Howitzers,artillery,20:Musketeers,infantry,100|Huskarls,cavalry,50
+Turkish,[],"",400,400:Musketeers,infantry,100|Huskarls,cavalry,50|Howitzers,artillery,20:Musketeers,infantry,100|Huskarls,cavalry,50
+

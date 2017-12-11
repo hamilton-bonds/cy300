@@ -1,4 +1,5 @@
 import random, math
+from unitClass import *
 
 # This class applies to cities and the troops within them.
 # The cityClass.py will address units in cities.
@@ -16,10 +17,10 @@ import random, math
 # Make a player class...
 
 class City(object):
-    def __init__(self,province,citytype,garrison,taxlvl,resources,income,pbuilds,cbuilds,troop_list,x,y):
+    def __init__(self,province,citytype,garrison,taxlvl,resources,income,pbuilds,cbuilds,unit_list,x,y):
         self.province = province
-        self.citytype = citytype if citytype else "City"
-        self.garrison = garrison if garrison else 0
+        self.citytype = citytype if citytype else "None"
+        self.gar = garrison if garrison else 0
 #        self.stockpile = stockpile if stockpile else 2
         self.taxlvl = taxlvl if taxlvl else "Normal"
 #        self.taxes = taxes
@@ -29,23 +30,24 @@ class City(object):
 #        self.loyalty = loyalty
         self.pbuilds = pbuilds if pbuilds else [] #Possible builds
         self.cbuilds = cbuilds if cbuilds else [] #Complete builds
-        self.tl = troop_list
+        self.ul = unit_list if unit_list else []
         self._x = x
         self._y = y
 
     def __repr__(self):
-        return "City({},{},{},{},{},{},{},{},{},{},{})".format(self.province,self.citytype,self.garrison,self.taxlvl,self.resources,self.income,self.pbuilds,self.cbuilds,self.tl,self._x,self._y)
+        return "City({},{},{},{},{},{},{},{},{},{},{})".format(self.province,self.citytype,self.gar,self.taxlvl,self.resources,self.income,self.pbuilds,self.cbuilds,self.ul,self._x,self._y)
         
     def stats(self): #Good
-        return "CITY STATS: | Province: {} | Garrison: {} | Taxes: {} | Income: {}".format(self.province,self.garrison,self.taxlvl,self.income)
+        return "CITY STATS: | Province: {} | Garrison: {} | Taxes: {} | Income: {}".format(self.province,self.gar,self.taxlvl,self.income)
 
-    def province(self): #'str' object is not callable
+    def getProvince(self): #'str' object is not callable
         return self.province
 
-    def garrison(self): #'int' object is not callable
-        return self.garrison
+    def getGarrison(self): #'int' object is not callable
+        self.gar = self.tot()
+        return self.gar #Total number of troops in garrison
 
-    def stockpile(self): #Good
+    def getStockpile(self): #Good
         if self.citytype == "None":
             stockpile = 0
         elif self.citytype == "City":
@@ -54,7 +56,7 @@ class City(object):
             stockpile = 4
         return stockpile
 
-    def taxlvl(self): #'str' object is not callable
+    def taxLevel(self): #'str' object is not callable
         return self.taxlvl
 
     def raisetaxes(self): #Good
@@ -119,7 +121,7 @@ class City(object):
             tax = int(0.40 * self.income)
         elif self.taxlvl == "Very High":
             tax = int(0.50 * self.income)
-        troop_pct = self.garrison * 2 #Represents percentage out of 200 (self.garrison/100)*200 = self.garrison * 2
+        troop_pct = self.gar * 2 #Represents percentage out of 200 (self.garrison/100)*200 = self.garrison * 2
         troop_pct = troop_pct + ((tax / self.income) * 100)
         if troop_pct > 200:
             troop_pct = 200
@@ -142,7 +144,7 @@ class City(object):
             tax = int(0.40 * self.income)
         elif self.taxlvl == "Very High":
             tax = int(0.50 * self.income)
-        troop_pct = self.garrison * 2 #Represents percentage out of 200 (self.garrison/100)*200 = self.garrison * 2
+        troop_pct = self.gar * 2 #Represents percentage out of 200 (self.garrison/100)*200 = self.garrison * 2
         troop_pct = troop_pct + ((tax / self.income) * 100)
         if troop_pct > 200:
             troop_pct = 200
@@ -179,27 +181,32 @@ class City(object):
         return self.citytype,stockpile
 
     def expenses(self): #Good
-        expenses = int(self.garrison * 0.25)
+        expenses = int(self.gar * 0.25)
         return expenses
 
-    def __add__(self,troops): #Merges what you select (troop) with the stationary unit (self)
-        ttot = self.tot()
-        if (ttot + troops.number()) > 1000:
+    def __add__(self,units): #Merges what you select (troop) with the stationary unit (self)
+        utot = self.tot()
+        if (utot + unit.tot()) > 1000:
             return "Merge Armies, cannot add more troops"
         else:
-            return self.tl.append(troops)
+            units.addToGarrison()
+            unitx = self.x
+            unity = self.y
+            units.updateLocation(unitx,unity)
+            return self.ul.append(troops)
         
-    def remove(self,troop): #Pops and returns what you select (troop) from the stationary unit (self)
-        thetroop = self.tl
-        if troop in self.tl:
-            return self.tl.pop(thetroop.index(troop))
+    def remove(self,units): #Pops and returns what you select (troop) from the stationary unit (self)
+        theunit = self.ul
+        if unit in self.ul:
+            units.remFromGarrison()
+            return self.ul.pop(theunit.index(units))
         else:
             return "Nothing to do."
 
     def tot(self): #Good
         total = 0
-        for troop in self.tl:
-            add = troop.number()
+        for unit in self.ul:
+            add = unit.tot()
             total += add
         return total
     
@@ -253,7 +260,7 @@ class City(object):
     def location(self): #Good
         return "({},{})".format(self._x,self._y)
 
-    def getImage(self): #Good
+    def getCityImage(self): #Good
         gar_temp = self.garrison
         while gar_temp > 0:
             gar_temp -= 20
@@ -264,16 +271,24 @@ class City(object):
 
     def update_right(self,change): #All good.
         self._x += change
+        for uns in unit_list:
+            uns.update_right()
         return self._x
     
     def update_left(self,change):
         self._x -= change
+        for uns in unit_list:
+            uns.update_right()
         return self._x
         
     def update_up(self,change):
         self._y += change
+        for uns in unit_list:
+            uns.update_right()
         return self._y
         
     def update_down(self,change):
         self._y -= change
+        for uns in unit_list:
+            uns.update_right()
         return self._y

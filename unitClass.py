@@ -13,8 +13,9 @@ from troopClass import *
 # If you need any more functionality, please notify Bonds
 
 class Unit(object):
-    def __init__(self,troop_list,x,y):
+    def __init__(self,troop_list,garded,x,y):
         self.tl = troop_list if troop_list else []
+        self.gard = garded if garded else 0
         self._x = x
         self._y = y
         
@@ -22,7 +23,8 @@ class Unit(object):
         return "Unit({},{},{})".format(self.tl,self._x,self._y)
     
     def stats(self):
-        return "UNIT STATS: COMING SOON!"
+        for uns in self.ul:
+            print(uns) #Will change later to enumerate inf,cav,art and numbers
         
     def comp(self):
         return self
@@ -38,10 +40,20 @@ class Unit(object):
         thetroop = self.tl
         return self.tl.pop(thetroop.index(troop))
         
-    def die(self):
-        totcomp = self.tot()
-        print("Will simply remove from list based off of total")
+#    def die(self):
+#        totcomp = self.tot()
+#        print("Will simply remove from list based off of total")
 
+    def addToGarrison(self):
+        self.gard = 1
+        return self.gard
+    def remFromGarrison(self):
+        self.gard = 0
+        return self.gard
+        
+    def isGarrisoned(self):
+        return gard == 1
+        
     def tot(self):
         total = 0
         for troop in self.tl:
@@ -49,7 +61,7 @@ class Unit(object):
             total += add
         return total
         
-    def getImage(self):
+    def getUnitImage(self):
         sub = self.tot
         while sub > 0:
             gar_temp -= 10
@@ -58,7 +70,12 @@ class Unit(object):
         unit_image_name = "Unit{}.png".format(rounded)
         return unit_image_name
 
-    def update_right(self,change):
+    def updateLocation(newx,newy):
+        self._x = newx
+        self._y = newy
+        return self._x,self._y
+        
+    def update_right(self,change): #Updates based on the scroll.
         self._x += change
         return self._x
     
